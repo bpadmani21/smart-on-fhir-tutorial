@@ -13,6 +13,7 @@
       if (smart.hasOwnProperty('patient')) {
         var patient = smart.patient;
         var pt = patient.read();
+        console.log('Patient record:'+ pt);
         var obv = smart.patient.api.fetchAll({
                     type: 'Observation',
                     query: {
@@ -25,6 +26,7 @@
                   });
 
         $.when(pt, obv).fail(onError);
+        console.log('Patient Observations:'+ obv);
 
         $.when(pt, obv).done(function(patient, obv) {
           var byCodes = smart.byCodes(obv, 'code');
@@ -45,6 +47,13 @@
           var ldl = byCodes('2089-1');
 
           var p = defaultPatient();
+          // Practitioner data
+          p.userid =smart.user;
+          p.username =smart.username;
+          p.pid =smart.patient;
+          p.encounter =smart.encounter;
+          
+          // patient data
           p.birthdate = patient.birthDate;
           p.gender = gender;
           p.fname = fname;
@@ -76,6 +85,13 @@
 
   function defaultPatient(){
     return {
+
+      // Practitioner data
+      userid: {value: ''},
+      username: {value: ''},
+      pid: {value: ''},
+      encounter: {value: ''},
+      //Patient data
       fname: {value: ''},
       lname: {value: ''},
       gender: {value: ''},
@@ -117,6 +133,12 @@
   }
 
   window.drawVisualization = function(p) {
+    // Practitioner data
+    $('#userid').html(p.userid);
+    $('#username').html(p.username);
+    $('#pid').html(p.pid);
+    $('#encounter').html(p.encounter);
+    // Patient data
     $('#holder').show();
     $('#loading').hide();
     $('#fname').html(p.fname);
