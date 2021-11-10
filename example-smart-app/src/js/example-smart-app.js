@@ -8,10 +8,12 @@
     }
 
     function onReady(smart)  {
-      console.log('executing onReady. Smart Object:');
-      console.log(smart);
+      console.log('executing onReady.');
+      console.log(JSON.stringify(smart));
       console.log('executing onReady. Token Response:');
       console.log(JSON.stringify(smart.tokenResponse));
+      console.log("username:" + smart.tokenResponse.username)
+
 
 
 
