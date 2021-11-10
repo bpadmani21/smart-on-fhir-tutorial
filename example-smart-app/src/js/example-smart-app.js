@@ -36,7 +36,7 @@
  
 
         $.when(pt, obv).done(function(patient, obv) {
-          console.log('Patient record:'+ JSON.stringify(pt));
+          console.log('Patient record:'+ JSON.stringify(patient));
           console.log('Patient Observations:'+ JSON.stringify(obv));
 
           var byCodes = smart.byCodes(obv, 'code');
