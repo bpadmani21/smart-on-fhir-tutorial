@@ -119,6 +119,21 @@
           $('#errors').html('<p> Failed to call FHIR Service </p>');
         }
       );
+
+      extractPractionerData().then(
+        //Display Patient Demographics and Observations if extractData was success
+        function(p) {
+          console.log("printing data object");
+          console.log(JSON.stringify(p));
+          drawPractitionerInfo(p);
+        },
+
+        //Display 'Failed to call FHIR Service' if extractData failed
+        function() {
+          $('#loading').hide();
+          $('#errors').html('<p> Failed to call FHIR Service </p>');
+        }
+      );
     </script>
   </body>
 </html>

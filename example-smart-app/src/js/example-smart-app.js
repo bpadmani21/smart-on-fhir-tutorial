@@ -54,11 +54,11 @@
           var ldl = byCodes('2089-1');
 
           var p = defaultPatient();
-          // Practitioner data
-          p.userid =smart.tokenResponse.user;
-          p.username =smart.tokenResponse.username;
-          p.pid =smart.tokenResponse.patient;
-          p.encounter =smart.tokenResponse.encounter;
+          // // Practitioner data
+          // p.userid =smart.tokenResponse.user;
+          // p.username =smart.tokenResponse.username;
+          // p.pid =smart.tokenResponse.patient;
+          // p.encounter =smart.tokenResponse.encounter;
           
           // patient data
           p.birthdate = patient.birthDate;
@@ -80,6 +80,72 @@
 
           ret.resolve(p);
         });
+      } else {
+        onError();
+      }
+    }
+
+    FHIR.oauth2.ready(onReady, onError);
+    return ret.promise();
+
+  };
+  window.extractPractionerData = function() {
+    var ret = $.Deferred();
+    console.log('executing Practitioner data.');
+    function onError() {
+      console.log('Loading Practitioner error', arguments);
+      ret.reject();
+    }
+
+    function onReady(smart)  {
+      console.log("userlink:" + smart.userId)
+      if (smart.hasOwnProperty('tokenResponse')) {
+        var p = defaultPractionerInfo();
+        p.userid =smart.tokenResponse.user;
+        p.username =smart.tokenResponse.username;
+        p.pid =smart.tokenResponse.patient;
+        p.encounter =smart.tokenResponse.encounter;
+        ret.resolve(p);
+
+
+        // var patient = smart.patient;
+        // var pt = patient.read();
+        // console.log('Patient record:'+ pt);
+        // var obv = smart.patient.api.fetchAll({
+        //             type: 'Observation',
+        //             query: {
+        //               code: {
+        //                 $or: ['http://loinc.org|8302-2', 'http://loinc.org|8462-4',
+        //                       'http://loinc.org|8480-6', 'http://loinc.org|2085-9',
+        //                       'http://loinc.org|2089-1', 'http://loinc.org|55284-4']
+        //               }
+        //             }
+        //           });
+
+        // $.when(pt, obv).fail(onError);
+        // console.log('Patient Observations:'+ obv);
+
+        // $.when(pt, obv).done(function(patient, obv) {
+        //   var byCodes = smart.byCodes(obv, 'code');
+        //   var gender = patient.gender;
+
+        //   var fname = '';
+        //   var lname = '';
+
+        //   if (typeof patient.name[0] !== 'undefined') {
+        //     fname = patient.name[0].given.join(' ');
+        //     lname = patient.name[0].family.join(' ');
+        //   }
+
+        //   var height = byCodes('8302-2');
+        //   var systolicbp = getBloodPressureValue(byCodes('55284-4'),'8480-6');
+        //   var diastolicbp = getBloodPressureValue(byCodes('55284-4'),'8462-4');
+        //   var hdl = byCodes('2085-9');
+        //   var ldl = byCodes('2089-1');
+
+        //   var p = defaultPractionerInfo();
+        //   ret.resolve(p);
+        // });
       } else {
         onError();
       }
@@ -111,6 +177,17 @@
     };
   }
 
+  function defaultPractionerInfo(){
+    return {
+      // Practitioner data
+      userid: {value: ''},
+      username: {value: ''},
+      pid: {value: ''},
+      encounter: {value: ''},
+    };
+  }
+
+
   function getBloodPressureValue(BPObservations, typeOfPressure) {
     var formattedBPObservations = [];
     BPObservations.forEach(function(observation){
@@ -141,10 +218,10 @@
 
   window.drawVisualization = function(p) {
     // Practitioner data
-    $('#userid').html(p.userid);
-    $('#username').html(p.username);
-    $('#pid').html(p.pid);
-    $('#encounter').html(p.encounter);
+    // $('#userid').html(p.userid);
+    // $('#username').html(p.username);
+    // $('#pid').html(p.pid);
+    // $('#encounter').html(p.encounter);
     // Patient data
     $('#holder').show();
     $('#loading').hide();
@@ -157,6 +234,14 @@
     $('#diastolicbp').html(p.diastolicbp);
     $('#ldl').html(p.ldl);
     $('#hdl').html(p.hdl);
+  };
+
+  window.drawPractitionerInfo = function(p) {
+    // Practitioner data
+    $('#userid').html(p.userid);
+    $('#username').html(p.username);
+    $('#pid').html(p.pid);
+    $('#encounter').html(p.encounter);
   };
 
 })(window);
