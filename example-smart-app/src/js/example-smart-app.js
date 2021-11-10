@@ -11,7 +11,7 @@
       // console.log('executing onReady.');
       // console.log(JSON.stringify(smart));
       // console.log('executing onReady. Token Response:');
-      // console.log(JSON.stringify(smart.tokenResponse));
+      console.log(JSON.stringify(smart.tokenResponse));
       console.log("userlink:" + smart.userId)
 
 
@@ -20,7 +20,7 @@
       if (smart.hasOwnProperty('patient')) {
         var patient = smart.patient;
         var pt = patient.read();
-        console.log('Patient record:'+ pt);
+        console.log('Patient record:'+ JSON.stringify(pt));
         var obv = smart.patient.api.fetchAll({
                     type: 'Observation',
                     query: {
@@ -33,7 +33,7 @@
                   });
 
         $.when(pt, obv).fail(onError);
-        console.log('Patient Observations:'+ obv);
+        console.log('Patient Observations:'+ JSON.stringify(obv));
 
         $.when(pt, obv).done(function(patient, obv) {
           var byCodes = smart.byCodes(obv, 'code');
