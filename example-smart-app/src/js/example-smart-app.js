@@ -48,7 +48,7 @@
 
           var p = defaultPatient();
           // Practitioner data
-          p.userid =smart.user;
+          p.userid =smart.user.read();
           p.username =smart.username;
           p.pid =smart.patient;
           p.encounter =smart.encounter;
