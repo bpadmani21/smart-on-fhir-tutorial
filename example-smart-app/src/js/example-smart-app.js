@@ -8,11 +8,11 @@
     }
 
     function onReady(smart)  {
-      console.log('executing onReady.');
-      console.log(JSON.stringify(smart));
-      console.log('executing onReady. Token Response:');
-      console.log(JSON.stringify(smart.tokenResponse));
-      console.log("username:" + smart.tokenResponse.username)
+      // console.log('executing onReady.');
+      // console.log(JSON.stringify(smart));
+      // console.log('executing onReady. Token Response:');
+      // console.log(JSON.stringify(smart.tokenResponse));
+      console.log("userlink:" + smart.userId)
 
 
 
@@ -55,10 +55,10 @@
 
           var p = defaultPatient();
           // Practitioner data
-          p.userid =smart.user.read();
-          p.username =smart.username;
-          p.pid =smart.patient;
-          p.encounter =smart.encounter;
+          p.userid =smart.tokenResponse.user;
+          p.username =smart.tokenResponse.username;
+          p.pid =smart.tokenResponse.patient;
+          p.encounter =smart.tokenResponse.encounter;
           
           // patient data
           p.birthdate = patient.birthDate;
