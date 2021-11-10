@@ -108,6 +108,8 @@
       extractData().then(
         //Display Patient Demographics and Observations if extractData was success
         function(p) {
+          console.log("printing data object")
+          console.log(p)
           drawVisualization(p);
         },
 
