@@ -6,42 +6,7 @@
     return 'bar result'
   }
 
-  function getPractioner(smart) {
-    console.log('executing getPractioner.');
-    console.log(JSON.stringify(smart));
-
-    var ret = $.Deferred();
-    function onError() {
-      console.log('Loading Practioner error', arguments);
-      ret.reject();
-    }
-
-    function queryPractitioner(smart) {
-      console.log('executing queryPractitioner.');
-      if (smart.hasOwnProperty('tokenResponse')) {
-
-        var p = defaultPractionerInfo()
-        p.userid = smart.tokenResponse.user;
-        p.username = smart.tokenResponse.username;
-        p.pid = smart.tokenResponse.patient;
-        p.encounter = smart.tokenResponse.encounter;
-        console.log('resolving Parctioner.');
-        ret.resolve(p);
-      } else {
-        onError();
-      }
-    }
-    
-    queryPractitioner(smart, onError);
-    return ret.promise();
-
-  }
-
-
   function getPatient(smart) {
-    console.log('executing getPatient.');
-    console.log(JSON.stringify(smart));
-
     var ret = $.Deferred();
 
     function onError() {
@@ -50,7 +15,6 @@
     }
 
     function queryPatient(smart) {
-      console.log('executing queryPractitioner.');
       if (smart.hasOwnProperty('patient')) {
         var patient = smart.patient;
         var pt = patient.read(); 
@@ -70,7 +34,6 @@
           p.gender = gender;
           p.fname = fname;
           p.lname = lname;
-          console.log('resolving patient.');
           ret.resolve(p);
         });
       } else {
@@ -91,31 +54,87 @@
       ret.reject();
     }
 
+  
+
     function onReady(smart) {
-      console.log('executing onReady.');
+      // console.log('executing onReady.');
       // console.log(JSON.stringify(smart));
       // console.log('executing onReady. Token Response:');
       console.log(JSON.stringify(smart.tokenResponse));
       console.log("userlink:" + smart.userId)
 
-      console.log('printing empty practioner.');
 
-      var test = defaultPractionerInfo()
-      console.log(JSON.stringify(test));
 
-      console.log('Getting objects');
-      
-      var practioner = getPractioner (smart)
-      var patient = getPatient(smart)
 
-      console.log('waiting for promises');
+      if (smart.hasOwnProperty('patient')) {
+        var patient = smart.patient;
+        var pt = patient.read();
 
-      $.when(practioner, patient).fail(onError);
-      $.when(practioner, patient).done(function (practioner, patient) {
-        console.log('Promises resolved');
-        ret.resolve(patient);
-      });
-        
+        var obv = smart.patient.api.fetchAll({
+          type: 'Observation',
+          query: {
+            code: {
+              $or: ['http://loinc.org|8302-2', 'http://loinc.org|8462-4',
+                'http://loinc.org|8480-6', 'http://loinc.org|2085-9',
+                'http://loinc.org|2089-1', 'http://loinc.org|55284-4']
+            }
+          }
+        });
+
+        $.when(pt, obv).fail(onError);
+
+
+        $.when(pt, obv).done(function (patient, obv) {
+          // console.log('Patient record:'+ JSON.stringify(patient));
+          // console.log('Patient Observations:'+ JSON.stringify(obv));
+
+          var byCodes = smart.byCodes(obv, 'code');
+          var gender = patient.gender;
+
+          var fname = '';
+          var lname = '';
+
+          if (typeof patient.name[0] !== 'undefined') {
+            fname = patient.name[0].given.join(' ');
+            lname = patient.name[0].family.join(' ');
+          }
+
+          var height = byCodes('8302-2');
+          var systolicbp = getBloodPressureValue(byCodes('55284-4'), '8480-6');
+          var diastolicbp = getBloodPressureValue(byCodes('55284-4'), '8462-4');
+          var hdl = byCodes('2085-9');
+          var ldl = byCodes('2089-1');
+
+          var p = defaultPatient();
+          // Practitioner data
+          p.userid = smart.tokenResponse.user;
+          p.username = smart.tokenResponse.username;
+          p.pid = smart.tokenResponse.patient;
+          p.encounter = smart.tokenResponse.encounter;
+
+          // patient data
+          p.birthdate = patient.birthDate;
+          p.gender = gender;
+          p.fname = fname;
+          p.lname = lname;
+          p.height = getQuantityValueAndUnit(height[0]);
+
+          if (typeof systolicbp != 'undefined') {
+            p.systolicbp = systolicbp;
+          }
+
+          if (typeof diastolicbp != 'undefined') {
+            p.diastolicbp = diastolicbp;
+          }
+
+          p.hdl = getQuantityValueAndUnit(hdl[0]);
+          p.ldl = getQuantityValueAndUnit(ldl[0]);
+
+          ret.resolve(p);
+        });
+      } else {
+        onError();
+      }
     }
 
     FHIR.oauth2.ready(onReady, onError);
