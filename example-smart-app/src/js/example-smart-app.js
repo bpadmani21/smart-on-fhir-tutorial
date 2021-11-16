@@ -76,8 +76,8 @@
 
     function queryPatient(smart) {
       console.log('executing queryPatient.');
-      console.log("patientid:"+ smart.getPatientId());
-      console.log("Encounter id:"+ smart.getEncounterId());
+      // console.log("patientid:"+ smart.getPatientId());
+      // console.log("Encounter id:"+ smart.getEncounterId());
 
       // Get current patient,  encounter
       //Request URL: https://launch.smarthealthit.org/v/r3/sim/eyJoIjoiMSJ9/fhir/Encounter/31b18aa0-0da7-4460-9633-04af41466d76
