@@ -1,14 +1,31 @@
 (function (window) {
 
-  async function getUserIno(smart) {
-    await new Promise((r) => setTimeout(r, 1000))
-    console.log('bar completed')
-    return 'bar result'
-  }
+  /***
+   * 
+   * 
+   function display(data) {
+        const output = document.getElementById("output");
+        output.innerText = data instanceof Error ?
+            String(data) :
+            JSON.stringify(data, null, 4);
+    }
+
+    const client = new FHIR.client({
+        serverUrl: "https://r3.smarthealthit.org",
+        tokenResponse: {
+            patient: "2e27c71e-30c8-4ceb-8c1c-5641e066c0a4"
+        }
+    });
+
+    client.request(`Patient/${client.patient.id}`)
+        .then(display)
+        .catch(display);
+   * 
+   */
 
   function getPractioner(smart) {
     console.log('executing getPractioner.');
-    console.log(JSON.stringify(smart));
+    //console.log(JSON.stringify(smart));
 
     var ret = $.Deferred();
     function onError() {
@@ -18,6 +35,13 @@
 
     function queryPractitioner(smart) {
       console.log('executing queryPractitioner.');
+      console.log("userid:"+ smart.getUserId());
+      console.log("usertype:"+ smart.getUserType());
+      console.log("fhirUser link:" + smart.getFhirUser())
+      //https://launch.smarthealthit.org/v/r3/sim/eyJoIjoiMSJ9/fhir/Practitioner/smart-Practitioner-71482713
+
+
+
       if (smart.hasOwnProperty('tokenResponse')) {
 
         var p = defaultPractionerInfo()
@@ -51,6 +75,14 @@
 
     function queryPatient(smart) {
       console.log('executing queryPractitioner.');
+
+      getEncounterId
+      console.log("patientid:"+ smart.getPatientId());
+      console.log("Encounter id:"+ smart.getEncounterId());
+
+      // Get current patient,  encounter
+      //Request URL: https://launch.smarthealthit.org/v/r3/sim/eyJoIjoiMSJ9/fhir/Encounter/31b18aa0-0da7-4460-9633-04af41466d76
+      //Request URL: https://launch.smarthealthit.org/v/r3/sim/eyJoIjoiMSJ9/fhir/Encounter/31b18aa0-0da7-4460-9633-04af41466d76
       if (smart.hasOwnProperty('patient')) {
         var patient = smart.patient;
         var pt = patient.read(); 
