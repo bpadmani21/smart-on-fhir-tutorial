@@ -90,23 +90,23 @@
         console.log("reuesting patient rec for " + smart.patient.id)
         var pt = smart.request(`Patient/${smart.patient.id}`, {});
 
-        console.log("made reuest for patient")
+        console.log("made request for patient")
 
         // var patient = smart.patient;
         // var pt = patient.read(); 
         $.when(pt).fail(onError);
         $.when(pt).done(function (patient) {
 
-          console.log("successfully retireved patient rec: ")
-          console.log(JSON.stringify(patient))
-          var gender = patient.gender;
-          var fname = '';
-          var lname = '';
+          console.log("successfully retireved patient record: ")
+          console.log(patient)
+          // var gender = patient.gender;
+          // var fname = '';
+          // var lname = '';
 
-          if (typeof patient.name[0] !== 'undefined') {
-            fname = patient.name[0].given.join(' ');
-            lname = patient.name[0].family.join(' ');
-          }
+          // if (typeof patient.name[0] !== 'undefined') {
+          //   fname = patient.name[0].given.join(' ');
+          //   lname = patient.name[0].family.join(' ');
+          // }
           var p = defaultPatient();
           // patient data
           p.birthdate = patient.birthDate;
