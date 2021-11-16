@@ -86,14 +86,16 @@
       //Request URL: https://launch.smarthealthit.org/v/r3/sim/eyJoIjoiMSJ9/fhir/Encounter/31b18aa0-0da7-4460-9633-04af41466d76
       if (smart.hasOwnProperty('patient')) {
 
-        console.log("patient id" +smart.patient.id )
 
+        console.log("reuesting patient rec for " + smart.patient.id)
         var pt = smart.request(`Patient/${smart.patient.id}`);
 
         // var patient = smart.patient;
         // var pt = patient.read(); 
         $.when(pt).fail(onError);
         $.when(pt).done(function (patient) {
+
+          console.log("successfully retireved patient rec: " + JSON.stringify(patient))
           var gender = patient.gender;
           var fname = '';
           var lname = '';
