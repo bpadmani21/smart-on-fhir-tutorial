@@ -76,7 +76,7 @@
       ret.reject();
     }
 
-    function queryPatient(smart) {
+    function queryPatient(client) {
       console.log('executing queryPatient.');
       // console.log("patientid:"+ smart.getPatientId());
       // console.log("Encounter id:"+ smart.getEncounterId());
@@ -84,41 +84,65 @@
       // Get current patient,  encounter
       //Request URL: https://launch.smarthealthit.org/v/r3/sim/eyJoIjoiMSJ9/fhir/Encounter/31b18aa0-0da7-4460-9633-04af41466d76
       //Request URL: https://launch.smarthealthit.org/v/r3/sim/eyJoIjoiMSJ9/fhir/Encounter/31b18aa0-0da7-4460-9633-04af41466d76
-      if (smart.hasOwnProperty('patient')) {
+      if (client.hasOwnProperty('patient')) {
 
 
-        console.log("reuesting patient rec for " + smart.patient.id)
-        var pt = smart.request(`Patient/${smart.patient.id}`, {});
+        console.log("reuesting patient rec for " + client.patient.id)
+        
+        //get patient record
+        client.request(`Patient/${smart.patient.id}`, {})
+          // Reject if no MedicationRequests are found
+          .then(function(data) {
+            console.log("successfully retireved patient record: ")
+            console.log(data)
+            var p = defaultPatient();
+            // patient data
+            p.birthdate = patient.birthDate;
+            p.gender = gender;
+            p.fname = fname;
+            p.lname = lname;
+            console.log('resolving patient.');
+            ret.resolve(p);
 
-        console.log("made request for patient")
+          })
+        } else {
+          onError();
+        }
 
-        // var patient = smart.patient;
-        // var pt = patient.read(); 
-        $.when(pt).fail(onError);
-        $.when(pt).done(function (patient) {
 
-          console.log("successfully retireved patient record: ")
-          console.log(patient)
-          // var gender = patient.gender;
-          // var fname = '';
-          // var lname = '';
 
-          // if (typeof patient.name[0] !== 'undefined') {
-          //   fname = patient.name[0].given.join(' ');
-          //   lname = patient.name[0].family.join(' ');
-          // }
-          var p = defaultPatient();
-          // patient data
-          p.birthdate = patient.birthDate;
-          p.gender = gender;
-          p.fname = fname;
-          p.lname = lname;
-          console.log('resolving patient.');
-          ret.resolve(p);
-        });
-      } else {
-        onError();
-      }
+
+        //   var pt = smart.request(`Patient/${smart.patient.id}`, {});
+
+        //   console.log("made request for patient")
+
+        //   // var patient = smart.patient;
+        //   // var pt = patient.read(); 
+        //   $.when(pt).fail(onError);
+        //   $.when(pt).done(function (patient) {
+
+        //     console.log("successfully retireved patient record: ")
+        //     console.log(patient)
+        //     // var gender = patient.gender;
+        //     // var fname = '';
+        //     // var lname = '';
+
+        //     // if (typeof patient.name[0] !== 'undefined') {
+        //     //   fname = patient.name[0].given.join(' ');
+        //     //   lname = patient.name[0].family.join(' ');
+        //     // }
+        //     var p = defaultPatient();
+        //     // patient data
+        //     p.birthdate = patient.birthDate;
+        //     p.gender = gender;
+        //     p.fname = fname;
+        //     p.lname = lname;
+        //     console.log('resolving patient.');
+        //     ret.resolve(p);
+        //   });
+        // } else {
+        //   onError();
+        // }
     }
     
     queryPatient(smart, onError);
