@@ -34,11 +34,17 @@
 
     function queryUser(smart) {
       console.log('executing queryUser.');
-      console.log("userid:"+ smart.getUserId());
-      console.log("usertype:"+ smart.getUserType());
-      console.log("fhirUser link:" + smart.getFhirUser())
+
+      console.log("userid:"+ smart.userId);
+      // console.log("usertype:"+ smart.getUserType());
+      // console.log("fhirUser link:" + smart.getFhirUser())
       //https://launch.smarthealthit.org/v/r3/sim/eyJoIjoiMSJ9/fhir/Practitioner/smart-Practitioner-71482713
       if (smart.hasOwnProperty('tokenResponse')) {
+        console.log("attempting to get user record)")
+        smart.request(smart.userId).then(function(res){
+          console.log("user rec:"+ JSON.stringify(res))
+        
+        });
         var uinfo = defaultUserInfo()
         uinfo.userid = smart.tokenResponse.user;
         uinfo.username = smart.tokenResponse.username;
