@@ -40,11 +40,11 @@
       // console.log("fhirUser link:" + smart.getFhirUser())
       //https://launch.smarthealthit.org/v/r3/sim/eyJoIjoiMSJ9/fhir/Practitioner/smart-Practitioner-71482713
       if (smart.hasOwnProperty('tokenResponse')) {
-        console.log("attempting to get user record)")
-        smart.request(smart.userId).then(function(res){
-          console.log("user rec:"+ JSON.stringify(res))
+        // console.log("attempting to get user record)")
+        // smart.request(smart.userId).then(function(res){
+        //   console.log("user rec:"+ JSON.stringify(res))
         
-        });
+        // });
         var uinfo = defaultUserInfo()
         uinfo.userid = smart.tokenResponse.user;
         uinfo.username = smart.tokenResponse.username;
@@ -83,8 +83,11 @@
       //Request URL: https://launch.smarthealthit.org/v/r3/sim/eyJoIjoiMSJ9/fhir/Encounter/31b18aa0-0da7-4460-9633-04af41466d76
       //Request URL: https://launch.smarthealthit.org/v/r3/sim/eyJoIjoiMSJ9/fhir/Encounter/31b18aa0-0da7-4460-9633-04af41466d76
       if (smart.hasOwnProperty('patient')) {
-        var patient = smart.patient;
-        var pt = patient.read(); 
+
+        var pt = smart.request(`Patient/${smart.patient.id}`);
+
+        // var patient = smart.patient;
+        // var pt = patient.read(); 
         $.when(pt).fail(onError);
         $.when(pt).done(function (patient) {
           var gender = patient.gender;
