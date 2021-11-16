@@ -97,10 +97,10 @@
             console.log(data)
             var p = defaultPatient();
             // patient data
-            p.birthdate = patient.birthDate;
-            p.gender = gender;
-            p.fname = fname;
-            p.lname = lname;
+            // p.birthdate = patient.birthDate;
+            // p.gender = gender;
+            // p.fname = fname;
+            // p.lname = lname;
             console.log('resolving patient.');
             ret.resolve(p);
 
