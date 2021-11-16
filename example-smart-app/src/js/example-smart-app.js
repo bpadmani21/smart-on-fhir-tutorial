@@ -86,6 +86,8 @@
       //Request URL: https://launch.smarthealthit.org/v/r3/sim/eyJoIjoiMSJ9/fhir/Encounter/31b18aa0-0da7-4460-9633-04af41466d76
       if (smart.hasOwnProperty('patient')) {
 
+        console.log("patient id" +smart.patient.id )
+
         var pt = smart.request(`Patient/${smart.patient.id}`);
 
         // var patient = smart.patient;
@@ -129,7 +131,7 @@
 
     function onReady(smart) {
       console.log('executing onReady.');
-      // console.log(JSON.stringify(smart));
+      console.log(smart);
       // console.log('executing onReady. Token Response:');
       // console.log(JSON.stringify(smart.tokenResponse));
       // console.log("userlink:" + smart.userId)
