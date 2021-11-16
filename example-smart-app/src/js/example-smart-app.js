@@ -35,7 +35,7 @@
     function queryUser(smart) {
       console.log('executing queryUser.');
 
-      console.log("userid:"+ smart.userId);
+      console.log("userid:"+ smart.user.id);
       // console.log("usertype:"+ smart.getUserType());
       // console.log("fhirUser link:" + smart.getFhirUser())
       //https://launch.smarthealthit.org/v/r3/sim/eyJoIjoiMSJ9/fhir/Practitioner/smart-Practitioner-71482713
@@ -46,10 +46,10 @@
         
         // });
         var uinfo = defaultUserInfo()
-        uinfo.userid = smart.tokenResponse.user;
-        uinfo.username = smart.tokenResponse.username;
-        uinfo.pid = smart.tokenResponse.patient;
-        uinfo.encounter = smart.tokenResponse.encounter;
+        uinfo.userid = smart.user.id;
+        uinfo.username = smart.state.tokenResponse.username;
+        uinfo.pid = smart.patient.id;
+        uinfo.encounter = smart.encounter.id;
         console.log('resolving UserInfo.');
         ret.resolve(uinfo);
       } else {
@@ -90,12 +90,15 @@
         console.log("reuesting patient rec for " + smart.patient.id)
         var pt = smart.request(`Patient/${smart.patient.id}`);
 
+        console.log("made reuest for patient")
+
         // var patient = smart.patient;
         // var pt = patient.read(); 
         $.when(pt).fail(onError);
         $.when(pt).done(function (patient) {
 
-          console.log("successfully retireved patient rec: " + JSON.stringify(patient))
+          console.log("successfully retireved patient rec: ")
+          console.log(JSON.stringify(patient))
           var gender = patient.gender;
           var fname = '';
           var lname = '';
