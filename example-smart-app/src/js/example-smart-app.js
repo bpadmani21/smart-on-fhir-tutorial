@@ -23,40 +23,35 @@
    * 
    */
 
-  function getPractioner(smart) {
-    console.log('executing getPractioner.');
-    //console.log(JSON.stringify(smart));
-
+  function getUserInfo(smart) {
+    console.log('executing getUserInfo.');
+    
     var ret = $.Deferred();
     function onError() {
-      console.log('Loading Practioner error', arguments);
+      console.log('Loading getUserInfo error', arguments);
       ret.reject();
     }
 
-    function queryPractitioner(smart) {
-      console.log('executing queryPractitioner.');
+    function queryUser(smart) {
+      console.log('executing queryUser.');
       console.log("userid:"+ smart.getUserId());
       console.log("usertype:"+ smart.getUserType());
       console.log("fhirUser link:" + smart.getFhirUser())
       //https://launch.smarthealthit.org/v/r3/sim/eyJoIjoiMSJ9/fhir/Practitioner/smart-Practitioner-71482713
-
-
-
       if (smart.hasOwnProperty('tokenResponse')) {
-
-        var p = defaultPractionerInfo()
-        p.userid = smart.tokenResponse.user;
-        p.username = smart.tokenResponse.username;
-        p.pid = smart.tokenResponse.patient;
-        p.encounter = smart.tokenResponse.encounter;
-        console.log('resolving Parctioner.');
-        ret.resolve(p);
+        var uinfo = defaultUserInfo()
+        uinfo.userid = smart.tokenResponse.user;
+        uinfo.username = smart.tokenResponse.username;
+        uinfo.pid = smart.tokenResponse.patient;
+        uinfo.encounter = smart.tokenResponse.encounter;
+        console.log('resolving UserInfo.');
+        ret.resolve(uinfo);
       } else {
         onError();
       }
     }
     
-    queryPractitioner(smart, onError);
+    queryUser(smart, onError);
     return ret.promise();
 
   }
@@ -64,7 +59,7 @@
 
   function getPatient(smart) {
     console.log('executing getPatient.');
-    console.log(JSON.stringify(smart));
+    //console.log(JSON.stringify(smart));
 
     var ret = $.Deferred();
 
@@ -74,9 +69,7 @@
     }
 
     function queryPatient(smart) {
-      console.log('executing queryPractitioner.');
-
-      getEncounterId
+      console.log('executing queryPatient.');
       console.log("patientid:"+ smart.getPatientId());
       console.log("Encounter id:"+ smart.getEncounterId());
 
@@ -127,23 +120,18 @@
       console.log('executing onReady.');
       // console.log(JSON.stringify(smart));
       // console.log('executing onReady. Token Response:');
-      console.log(JSON.stringify(smart.tokenResponse));
-      console.log("userlink:" + smart.userId)
-
-      console.log('printing empty practioner.');
-
-      var test = defaultPractionerInfo()
-      console.log(JSON.stringify(test));
+      // console.log(JSON.stringify(smart.tokenResponse));
+      // console.log("userlink:" + smart.userId)
 
       console.log('Getting objects');
       
-      var practioner = getPractioner (smart)
+      var userInfo = getUserInfo (smart)
       var patient = getPatient(smart)
 
       console.log('waiting for promises');
 
-      $.when(practioner, patient).fail(onError);
-      $.when(practioner, patient).done(function (practioner, patient) {
+      $.when(userInfo, patient).fail(onError);
+      $.when(userInfo, patient).done(function (userInfo, patient) {
         console.log('Promises resolved');
         ret.resolve(patient);
       });
@@ -341,7 +329,7 @@
     };
   }
 
-  function defaultPractionerInfo() {
+  function defaultUserInfo() {
     return {
       // Practitioner data
       userid: { value: '' },
