@@ -65,6 +65,8 @@
 
   function getPatient(smart) {
     console.log('executing getPatient.');
+
+    FHIR.oauth2.ready
     //console.log(JSON.stringify(smart));
 
     var ret = $.Deferred();
@@ -147,18 +149,18 @@
         
     }
 
-    //FHIR.oauth2.ready(onReady, onError);
+    FHIR.oauth2.ready(onReady, onError);
 
     //var client = FHIR.oauth2.ready();
-    FHIR.oauth2.ready()
-    .then(client => {
-      console.log("received the client object")
-      console.log(client)
-      var patient = client.request(`Patient/${client.patient.id}`)
-      ret.resolve(patient);
-    }) 
-    //.then(console.log)
-    .catch(console.error);
+    // FHIR.oauth2.ready()
+    // .then(client => {
+    //   console.log("received the client object")
+    //   console.log(client)
+    //   var patient = client.request(`Patient/${client.patient.id}`)
+    //   ret.resolve(patient);
+    // }) 
+    // //.then(console.log)
+    // .catch(console.error);
 
     return ret.promise();
 
