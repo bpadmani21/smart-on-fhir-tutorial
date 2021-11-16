@@ -88,7 +88,7 @@
 
 
         console.log("reuesting patient rec for " + smart.patient.id)
-        var pt = smart.request(`Patient/${smart.patient.id}`);
+        var pt = smart.request(`Patient/${smart.patient.id}`, {});
 
         console.log("made reuest for patient")
 
