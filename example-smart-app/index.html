@@ -24,6 +24,9 @@
         <div id="meds">Loading...</div>
         <script type="text/javascript">
             FHIR.oauth2.ready().then(function(client) {
+
+              console.log("Executing after ready")
+              console.log(client)
                 
                 // Render the current patient (or any error)
                 client.patient.read().then(
