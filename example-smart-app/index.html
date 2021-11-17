@@ -117,10 +117,10 @@
     <script>
       extractData().then(
         //Display Patient Demographics and Observations if extractData was success
-        function(userInfo, patientInfo) {
+        function(res) {
           // console.log("printing data object");
           // console.log(JSON.stringify(p));
-          drawVisualization(userInfo, patientInfo);
+          drawVisualization(res);
           // console.log("printing object in index file");
           // console.log(userInfo);
           // console.log(patientInfo);

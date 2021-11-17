@@ -171,7 +171,10 @@
       $.when(userInfo, patient).fail(onError);
       $.when(userInfo, patient).done(function (userInfo, patientInfo) {
         console.log('Promises resolved');
-        ret.resolve(userInfo, patientInfo);
+        var res = {}
+        res.UserInfo = userInfo
+        res.PatientInfo = patientInfo
+        ret.resolve(res);
       });
     }
 
@@ -405,13 +408,14 @@
     }
   }
 
-  window.drawVisualization = function (userInfo, patientInfo) {
+  window.drawVisualization = function (res) {
     console.log("drawing values")
     //Practitioner data
+
     //$('#userinfo').html(userInfo);
     //$('#patient').html(patientInfo);
-    $('#userid').html(JSON.stringify(userInfo));
-    $('#username').html(JSON.stringify(patientInfo));
+    $('#userid').html(JSON.stringify(res.UserInfo));
+    $('#username').html(JSON.stringify(res.PatientInfo));
     // $('#pid').html(p.pid);
     // $('#encounter').html(p.encounter);
     // //Patient data
