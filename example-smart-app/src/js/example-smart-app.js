@@ -46,13 +46,14 @@
         }, error =>{
           onError();
         });
-      console.log("Making attempt to retrieve practioner role: ")
-      client.request("/PractionerRole?practitioner=" + client.user.id, {})
-        .then(function(data) {
-          console.log("successfully retireved practioner role record: ")
-          console.log(data)
+      // Current user scope does not support Practioner role
+      // console.log("Making attempt to retrieve practioner role: ")
+      // client.request("/PractionerRole?practitioner=" + client.user.id, {})
+      //   .then(function(data) {
+      //     console.log("successfully retireved practioner role record: ")
+      //     console.log(data)
 
-        });
+      //   });
     }
     
     queryUser(client, onError);
@@ -86,8 +87,34 @@
             console.log(data)
             console.log('resolving patient.');
             ret.resolve(data);
-
           })
+
+          // patient/MedicationOrder.read
+          client.request(`Patient/MedicationOrder?patient=${client.patient.id}`, {})
+          // Reject if no MedicationRequests are found
+          .then(function(data) {
+            console.log("successfully retireved patient medication  record: " + data )
+            console.log(data)
+            console.log('resolving patient medication.');
+            //ret.resolve(data);
+          })
+          // patient/DiagnosticReport.read 
+          client.request(`Patient/DiagnosticReport?patient=${client.patient.id}`, {})
+          .then(function(data) {
+            console.log("successfully retireved patient DiagnosticReport  record: " )
+            console.log(data)
+            console.log('resolving patient DiagnosticReport.');
+            //ret.resolve(data);
+          })
+          // patient/Encounter.read
+          client.request(`Patient/Encounter?patient=${client.patient.id}`, {})
+          .then(function(data) {
+            console.log("successfully retireved patient Encounter  record: " )
+            console.log(data)
+            console.log('resolving patient Encounter.');
+            //ret.resolve(data);
+          })
+
         } else {
           console.log("throwing error due to missing patient key in clinet")
           onError();
