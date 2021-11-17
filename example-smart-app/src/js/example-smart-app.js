@@ -1,29 +1,6 @@
 (function (window) {
 
-  /***
-   * 
-   * 
-   function display(data) {
-        const output = document.getElementById("output");
-        output.innerText = data instanceof Error ?
-            String(data) :
-            JSON.stringify(data, null, 4);
-    }
-
-    const client = new FHIR.client({
-        serverUrl: "https://r3.smarthealthit.org",
-        tokenResponse: {
-            patient: "2e27c71e-30c8-4ceb-8c1c-5641e066c0a4"
-        }
-    });
-
-    client.request(`Patient/${client.patient.id}`)
-        .then(display)
-        .catch(display);
-   * 
-   */
-
-  function getUserInfo(client) {
+   function getUserInfo(client) {
     console.log('executing getUserInfo.');
     
     var ret = $.Deferred();
@@ -38,10 +15,10 @@
       client.request(`Practitioner/${client.user.id}`, {})
         // Reject if no MedicationRequests are found
         .then(function(data) {
-          console.log("successfully retireved practioner record: ")
-          console.log(data)
-          console.log('resolving user.');
-          ret.resolve(data);
+          var res = {}
+          res.Practitioner = data
+          console.log(res);
+          ret.resolve(res);
 
         }, error =>{
           onError();
@@ -62,7 +39,7 @@
   }
 
 
-  function getPatient(client) {
+  function getPatientInfo(client) {
     console.log('executing getPatient.');
 
     var ret = $.Deferred();
@@ -91,8 +68,8 @@
           res.MedicationOrder = values[1]
           res.DiagnosticReport = values[2]
           res.Encounter = values[3]
-
           console.log(res);
+          ret.resolve(res)
         });
         
         
@@ -173,7 +150,7 @@
         // }
     }
     
-    queryPatient(client, onError);
+    getPatientInfo(client, onError);
     return ret.promise();
 
   }
@@ -186,20 +163,15 @@
       ret.reject();
     }
 
-    function onReady(client) {
-      console.log('executing onReady.');
-      console.log(client);
-      console.log('Getting objects');
-      
+    function onReady(client) {     
       var userInfo = getUserInfo (client)
       var patient = getPatient(client)
 
       console.log('waiting for promises');
-
       $.when(userInfo, patient).fail(onError);
-      $.when(userInfo, patient).done(function (userInfo, patient) {
+      $.when(userInfo, patient).done(function (userInfo, patientInfo) {
         console.log('Promises resolved');
-        ret.resolve(patient);
+        ret.resolve(userInfo, patientInfo);
       });
     }
 
