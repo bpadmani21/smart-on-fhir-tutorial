@@ -150,7 +150,7 @@
         // }
     }
     
-    getPatientInfo(client, onError);
+    queryPatient(client, onError);
     return ret.promise();
 
   }
@@ -165,7 +165,7 @@
 
     function onReady(client) {     
       var userInfo = getUserInfo (client)
-      var patient = getPatient(client)
+      var patient = getPatientInfo(client)
 
       console.log('waiting for promises');
       $.when(userInfo, patient).fail(onError);
