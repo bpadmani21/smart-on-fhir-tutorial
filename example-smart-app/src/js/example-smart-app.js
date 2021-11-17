@@ -23,7 +23,7 @@
    * 
    */
 
-  function getUserInfo(smart) {
+  function getUserInfo(client) {
     console.log('executing getUserInfo.');
     
     var ret = $.Deferred();
@@ -32,42 +32,30 @@
       ret.reject();
     }
 
-    function queryUser(smart) {
-      console.log('executing queryUser.');
+    function queryUser(client) {
+      console.log('executing queryUser:' + client.user.id);
+      // "user": { "fhirUser": "Practitioner/12742069", "id": "12742069", "resourceType": "Practitioner"
+      client.request(`Practitioner/${client.user.id}`, {})
+        // Reject if no MedicationRequests are found
+        .then(function(data) {
+          console.log("successfully retireved practioner record: ")
+          console.log(data)
+          console.log('resolving user.');
+          ret.resolve(data);
 
-      console.log("userid:"+ smart.user.id);
-      // console.log("usertype:"+ smart.getUserType());
-      // console.log("fhirUser link:" + smart.getFhirUser())
-      //https://launch.smarthealthit.org/v/r3/sim/eyJoIjoiMSJ9/fhir/Practitioner/smart-Practitioner-71482713
-      if (smart.hasOwnProperty('tokenResponse')) {
-        // console.log("attempting to get user record)")
-        // smart.request(smart.userId).then(function(res){
-        //   console.log("user rec:"+ JSON.stringify(res))
-        
-        // });
-        var uinfo = defaultUserInfo()
-        uinfo.userid = smart.user.id;
-        uinfo.username = smart.state.tokenResponse.username;
-        uinfo.pid = smart.patient.id;
-        uinfo.encounter = smart.encounter.id;
-        console.log('resolving UserInfo.');
-        ret.resolve(uinfo);
-      } else {
-        onError();
-      }
+        }, error =>{
+          onError();
+        });
     }
     
-    queryUser(smart, onError);
+    queryUser(client, onError);
     return ret.promise();
 
   }
 
 
-  function getPatient(smart) {
+  function getPatient(client) {
     console.log('executing getPatient.');
-
-    FHIR.oauth2.ready
-    //console.log(JSON.stringify(smart));
 
     var ret = $.Deferred();
 
@@ -78,19 +66,13 @@
 
     function queryPatient(client) {
       console.log('executing queryPatient.');
-      // console.log("patientid:"+ smart.getPatientId());
-      // console.log("Encounter id:"+ smart.getEncounterId());
 
       // Get current patient,  encounter
-      //Request URL: https://launch.smarthealthit.org/v/r3/sim/eyJoIjoiMSJ9/fhir/Encounter/31b18aa0-0da7-4460-9633-04af41466d76
-      //Request URL: https://launch.smarthealthit.org/v/r3/sim/eyJoIjoiMSJ9/fhir/Encounter/31b18aa0-0da7-4460-9633-04af41466d76
       if (client.hasOwnProperty('patient')) {
-
-
         console.log("reuesting patient rec for " + client.patient.id)
         
         //get patient record
-        client.request(`Patient/${smart.patient.id}`, {})
+        client.request(`Patient/${client.patient.id}`, {})
           // Reject if no MedicationRequests are found
           .then(function(data) {
             console.log("successfully retireved patient record: ")
@@ -106,6 +88,7 @@
 
           })
         } else {
+          console.log("throwing error due to missing patient key in clinet")
           onError();
         }
 
@@ -145,7 +128,7 @@
         // }
     }
     
-    queryPatient(smart, onError);
+    queryPatient(client, onError);
     return ret.promise();
 
   }
@@ -158,17 +141,13 @@
       ret.reject();
     }
 
-    function onReady(smart) {
+    function onReady(client) {
       console.log('executing onReady.');
-      console.log(smart);
-      // console.log('executing onReady. Token Response:');
-      // console.log(JSON.stringify(smart.tokenResponse));
-      // console.log("userlink:" + smart.userId)
-
+      console.log(client);
       console.log('Getting objects');
       
-      var userInfo = getUserInfo (smart)
-      var patient = getPatient(smart)
+      var userInfo = getUserInfo (client)
+      var patient = getPatient(client)
 
       console.log('waiting for promises');
 
@@ -177,22 +156,9 @@
         console.log('Promises resolved');
         ret.resolve(patient);
       });
-        
     }
 
     FHIR.oauth2.ready(onReady, onError);
-
-    //var client = FHIR.oauth2.ready();
-    // FHIR.oauth2.ready()
-    // .then(client => {
-    //   console.log("received the client object")
-    //   console.log(client)
-    //   var patient = client.request(`Patient/${client.patient.id}`)
-    //   ret.resolve(patient);
-    // }) 
-    // //.then(console.log)
-    // .catch(console.error);
-
     return ret.promise();
 
   };
