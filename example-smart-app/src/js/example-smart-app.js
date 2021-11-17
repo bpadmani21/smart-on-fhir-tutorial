@@ -406,11 +406,12 @@
   }
 
   window.drawVisualization = function (userInfo, patientInfo) {
+    console.log("drawing values")
     //Practitioner data
-    $('#userinfo').html(userInfo);
-    $('#patient').html(patientInfo);
-    // $('#userid').html(p.userid);
-    // $('#username').html(p.username);
+    //$('#userinfo').html(userInfo);
+    //$('#patient').html(patientInfo);
+    $('#userid').html(JSON.stringify(userInfo));
+    $('#username').html(JSON.stringify(patientInfo));
     // $('#pid').html(p.pid);
     // $('#encounter').html(p.encounter);
     // //Patient data
