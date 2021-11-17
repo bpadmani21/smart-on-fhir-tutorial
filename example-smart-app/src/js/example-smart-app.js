@@ -46,6 +46,13 @@
         }, error =>{
           onError();
         });
+      console.log("Making attempt to retrieve practioner role: ")
+      client.request("/PractionerRole?practitioner=" + client.user.id, {})
+        .then(function(data) {
+          console.log("successfully retireved practioner role record: ")
+          console.log(data)
+
+        });
     }
     
     queryUser(client, onError);
@@ -77,14 +84,8 @@
           .then(function(data) {
             console.log("successfully retireved patient record: ")
             console.log(data)
-            var p = defaultPatient();
-            // patient data
-            // p.birthdate = patient.birthDate;
-            // p.gender = gender;
-            // p.fname = fname;
-            // p.lname = lname;
             console.log('resolving patient.');
-            ret.resolve(p);
+            ret.resolve(data);
 
           })
         } else {
