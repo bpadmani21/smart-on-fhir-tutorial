@@ -164,12 +164,12 @@
     }
 
     function onReady(client) {     
-      var userInfo = getUserInfo (client)
+      var user = getUserInfo (client)
       var patient = getPatientInfo(client)
 
       console.log('waiting for promises');
-      $.when(userInfo, patient).fail(onError);
-      $.when(userInfo, patient).done(function (userInfo, patientInfo) {
+      $.when(user, patient).fail(onError);
+      $.when(user, patient).done(function (userInfo, patientInfo) {
         console.log('Promises resolved');
         var res = {}
         res.UserInfo = userInfo
