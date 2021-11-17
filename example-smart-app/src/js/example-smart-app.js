@@ -86,7 +86,13 @@
         var p4 = client.request(`Encounter?patient=${client.patient.id}`, {})
 
         Promise.all([p1, p2, p3, p4]).then((values) => {
-          console.log(values);
+          var res = {}
+          res.Patient = values[0]
+          res.MedicationOrder = values[1]
+          res.DiagnosticReport = values[2]
+          res.Encounter = values[3]
+
+          console.log(res);
         });
         
         
