@@ -80,14 +80,14 @@
         console.log("reuesting patient rec for " + client.patient.id)
         
         //get patient record
-        // client.request(`Patient/${client.patient.id}`, {})
-        //   // Reject if no MedicationRequests are found
-        //   .then(function(data) {
-        //     console.log("successfully retireved patient record: ")
-        //     console.log(data)
-        //     console.log('resolving patient.');
-        //     ret.resolve(data);
-        //   })
+        client.request(`Patient/${client.patient.id}`, {})
+          // Reject if no MedicationRequests are found
+          .then(function(data) {
+            console.log("successfully retireved patient record: ")
+            console.log(data)
+            console.log('resolving patient.');
+            ret.resolve(data);
+          })
 
           // patient/MedicationOrder.read
         client.request(`MedicationOrder?patient=${client.patient.id}`, {})
@@ -99,21 +99,21 @@
             ret.resolve(data);
           })
           // patient/DiagnosticReport.read 
-        // client.request(`DiagnosticReport?patient=${client.patient.id}`, {})
-        //   .then(function(data) {
-        //     console.log("successfully retireved patient DiagnosticReport  record: " )
-        //     console.log(data)
-        //     console.log('resolving patient DiagnosticReport.');
-        //     //ret.resolve(data);
-        //   })
-        //   // patient/Encounter.read
-        // client.request(`Encounter?patient=${client.patient.id}`, {})
-        //   .then(function(data) {
-        //     console.log("successfully retireved patient Encounter  record: " )
-        //     console.log(data)
-        //     console.log('resolving patient Encounter.');
-        //     //ret.resolve(data);
-        //   })
+        client.request(`DiagnosticReport?patient=${client.patient.id}`, {})
+          .then(function(data) {
+            console.log("successfully retireved patient DiagnosticReport  record: " )
+            console.log(data)
+            console.log('resolving patient DiagnosticReport.');
+            //ret.resolve(data);
+          })
+          // patient/Encounter.read
+        client.request(`Encounter?patient=${client.patient.id}`, {})
+          .then(function(data) {
+            console.log("successfully retireved patient Encounter  record: " )
+            console.log(data)
+            console.log('resolving patient Encounter.');
+            //ret.resolve(data);
+          })
 
         } else {
           console.log("throwing error due to missing patient key in clinet")
