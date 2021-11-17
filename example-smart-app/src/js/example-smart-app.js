@@ -28,7 +28,7 @@
     
     var ret = $.Deferred();
     function onError() {
-      console.log('Loading getUserInfo error', arguments);
+      console.log('Loading getUserInfo error', JSON.stringify(arguments));
       ret.reject();
     }
 
@@ -137,7 +137,7 @@
     var ret = $.Deferred();
 
     function onError() {
-      console.log('Loading error', arguments);
+      console.log('Loading error on data', arguments);
       ret.reject();
     }
 
