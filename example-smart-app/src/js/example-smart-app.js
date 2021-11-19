@@ -420,28 +420,23 @@
     console.log(res)
     //Practitioner data
 
+    $('#proactitioner').html(res.practitioner.text.div);
+    $('#patient').html(res.patient.text.div);
+    $('#medicationOrder').html(res.medicationOrder.text.div);
+    $('#diagnosticReport').html(res.diagnosticReport.text.div);
+    $('#encounter').html(res.encounter.text.div);
+
+
     $('#practitionRec').text(JSON.stringify(res.practitioner,null,'\t'));
     $('#patientRec').text(JSON.stringify(res.patient,null,'\t'));
-    $('#medicationOrder').text(JSON.stringify(res.medicationOrder,null,'\t'));
-    $('#diagnosticReport').text(JSON.stringify(res.diagnosticReport,null,'\t'));
-    $('#encounter').text(JSON.stringify(res.encounter,null,'\t'));
+    $('#medicationOrderRec').text(JSON.stringify(res.medicationOrder,null,'\t'));
+    $('#diagnosticReportRec').text(JSON.stringify(res.diagnosticReport,null,'\t'));
+    $('#encounterRec').text(JSON.stringify(res.encounter,null,'\t'));
 
-    $('#userid').html(res.practitioner.id);
-    $('#username').html(res.practitioner.name.text);
-    $('#pid').html(res.patient.id);
-    // $('#encounter').html(p.encounter);
-    // //Patient data
-    // $('#holder').show();
-    // $('#loading').hide();
-    // $('#fname').html(p.fname);
-    // $('#lname').html(p.lname);
-    // $('#gender').html(p.gender);
-    // $('#birthdate').html(p.birthdate);
-    // $('#height').html(p.height);
-    // $('#systolicbp').html(p.systolicbp);
-    // $('#diastolicbp').html(p.diastolicbp);
-    // $('#ldl').html(p.ldl);
-    // $('#hdl').html(p.hdl);
+  
+    $('#holder').show();
+    $('#loading').hide();
+
   };
 
   // window.drawPractitionerInfo = function(p) {

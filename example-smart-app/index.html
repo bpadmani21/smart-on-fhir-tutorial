@@ -4,12 +4,7 @@
     <meta http-equiv='X-UA-Compatible' content='IE=edge' />
     <meta http-equiv='Content-Type' content='text/html; charset=utf-8' />
     <title> bpadmani21 Example-SMART-App</title>
-
     <link rel='stylesheet' type='text/css' href='./src/css/example-smart-app.css'>
-    <!--
-      Temporarily disable cerner-smart-embeddable-lib
-      <link rel='stylesheet' type='text/css' href='./lib/css/cerner-smart-embeddable-lib-1.0.0.min.css'>
-    -->
   </head>
   <body>
     <div id='errors'>
@@ -21,6 +16,30 @@
     </div>
     <div id='holder' >
       <h2>Example-SMART-App</h2>
+      <table>
+        <tr>
+          <th>Practitioner:</th>
+          <td id='proactitioner'></td>
+        </tr>
+        <tr>
+          <th>Patient:</th>
+          <td id='patient'></td>
+        </tr>
+        <tr>
+          <th>Medications:</th>
+          <td id='medicationOrder'></td>
+        </tr>
+        <tr>
+          <th>DiagnosticReport:</th>
+          <td id='diagnosticReport'></td>
+        </tr>
+        <tr>
+          <th>encounter:</th>
+          <td id='encounter'></td>
+        </tr>
+      </table>
+
+      <h2>Detailed Records</h2>
       <div>
         <strong>Practitioner Record</strong>
         <textarea id='practitionRec' oninput="auto_grow(this)" style="width:100%"></textarea>
@@ -31,95 +50,19 @@
       </div>
       <div>
         <strong>Medications</strong>
-        <textarea id='medicationOrder' oninput="auto_grow(this)" style="width:100%"></textarea>
+        <textarea id='medicationOrderRec' oninput="auto_grow(this)" style="width:100%"></textarea>
       </div>
       <div>
         <strong>Diagnostics</strong>
-        <textarea id='diagnosticReport' oninput="auto_grow(this)" style="width:100%"></textarea>
+        <textarea id='diagnosticReportRec' oninput="auto_grow(this)" style="width:100%"></textarea>
       </div>
       <div>
         <strong>Encounters</strong>
-        <textarea id='encounter' oninput="auto_grow(this)" style="width:100%"></textarea>
+        <textarea id='encounterRec' oninput="auto_grow(this)" style="width:100%"></textarea>
       </div>
-      <h2>Practioner Resource</h2>
-      <table>
-        <tr>
-          <th>Practitioner User ID:</th>
-          <td id='userinfo'></td>
-        </tr>
-        <tr>
-          <th>Practitioner User name:</th>
-          <td id='patient'></td>
-        </tr>
-        <tr>
-          <th>Practitioner User ID:</th>
-          <td id='userid'></td>
-        </tr>
-        <tr>
-          <th>Practitioner User name:</th>
-          <td id='username'></td>
-        </tr>
-        <tr>
-          <th>Patient ID:</th>
-          <td id='pid'></td>
-        </tr>
-        <tr>
-          <th>Encounter ID:</th>
-          <td id='encounter'></td>
-        </tr>
-      </table>
 
+      
 
-      <h2>Patient Resource</h2>
-      <table>
-        <tr>
-          <th>First Name:</th>
-          <td id='fname'></td>
-        </tr>
-        <tr>
-          <th>Last Name:</th>
-          <td id='lname'></td>
-        </tr>
-        <tr>
-          <th>Gender:</th>
-          <td id='gender'></td>
-        </tr>
-        <tr>
-          <th>Date of Birth:</th>
-          <td id='birthdate'></td>
-        </tr>
-      </table>
-      <h2>Observation Resource</h2>
-      <table>
-        <tr>
-          <th>Height:</th>
-          <td id='height'></td>
-        </tr>
-        <tr>
-          <th>Systolic Blood Pressure:</th>
-          <td id='systolicbp'></td>
-
-        </tr>
-        <tr>
-          <th>Diastolic Blood Pressure:</th>
-          <td id='diastolicbp'></td>
-        </tr>
-        <tr>
-          <th>LDL:</th>
-          <td id='ldl'></td>
-        </tr>
-        <tr>
-          <th>HDL:</th>
-          <td id='hdl'></td>
-        </tr>
-      </table>
-    </div>
-    <!-- Required JS files to enable this page to embed within an MPage -->
-    <!--
-      Temporarily disable cerner-smart-embeddable-lib
-      <script src='https://cdnjs.cloudflare.com/ajax/libs/babel-polyfill/6.26.0/polyfill.min.js'></script>
-      <script src='./lib/js/cerner-smart-embeddable-lib-1.0.0.min.js'></script>
-    -->
 
     <!-- Application-level javascript-->
     <script src='./src/js/example-smart-app.js'></script>
@@ -141,27 +84,7 @@
       extractData().then(
         //Display Patient Demographics and Observations if extractData was success
         function(res) {
-          // console.log("printing data object");
-          // console.log(JSON.stringify(p));
           drawVisualization(res);
-          console.log("hiding loading")
- 
-          // $('#userinfo').html(userInfo);
-          // $('#patient').html(patientInfo);
-          // $('#pid').html(p.pid);
-          // $('#encounter').html(p.encounter);
-          // //Patient data
-          $('#holder').show();
-          $('#loading').hide();
-          // $('#fname').html(p.fname);
-          // $('#lname').html(p.lname);
-          // $('#gender').html(p.gender);
-          // $('#birthdate').html(p.birthdate);
-          // $('#height').html(p.height);
-          // $('#systolicbp').html(p.systolicbp);
-          // $('#diastolicbp').html(p.diastolicbp);
-          // $('#ldl').html(p.ldl);
-          // $('#hdl').html(p.hdl);
         }
         // ,
 
@@ -171,21 +94,6 @@
         //   $('#errors').html('<p> Failed to call FHIR Service </p>');
         // }
       );
-
-      // extractPractionerData().then(
-      //   //Display Patient Demographics and Observations if extractData was success
-      //   function(p) {
-      //     console.log("printing priactitioner data object");
-      //     console.log(JSON.stringify(p));
-      //     drawPractitionerInfo(p);
-      //   },
-
-      //   //Display 'Failed to call FHIR Service' if extractData failed
-      //   function() {
-      //     $('#loading').hide();
-      //     $('#errors').html('<p> Failed to call Practiti oner FHIR Service </p>');
-      //   }
-      // );
     </script>
   </body>
 </html>
