@@ -2,7 +2,6 @@
 
    function getUserInfo(client) {
     console.log('executing getUserInfo.');
-    
     var ret = $.Deferred();
     function onError() {
       console.log('Loading getUserInfo error', JSON.stringify(arguments));
@@ -19,7 +18,6 @@
           res.Practitioner = data
           console.log(res);
           ret.resolve(res);
-
         }, error =>{
           onError();
         });
@@ -41,7 +39,6 @@
 
   function getPatientInfo(client) {
     console.log('executing getPatient.');
-
     var ret = $.Deferred();
 
     function onError() {
@@ -51,11 +48,9 @@
 
     function queryPatient(client) {
       console.log('executing queryPatient.');
-
       // Get current patient,  encounter
       if (client.hasOwnProperty('patient')) {
         console.log("reuesting patient rec for " + client.patient.id)
-
         //get patient record
         var p1 = client.request(`Patient/${client.patient.id}`, {})
         var p2= client.request(`MedicationOrder?patient=${client.patient.id}`, {})
@@ -70,94 +65,18 @@
           res.Encounter = values[3]
           console.log(res);
           ret.resolve(res)
-        });
-        
-        
-        // //get patient record
-        // client.request(`Patient/${client.patient.id}`, {})
-        //   // Reject if no MedicationRequests are found
-        //   .then(function(data) {
-        //     console.log("successfully retireved patient record: ")
-        //     console.log(data)
-        //     console.log('resolving patient.');
-        //     ret.resolve(data);
-        //   })
-
-        //   // patient/MedicationOrder.read
-        // client.request(`MedicationOrder?patient=${client.patient.id}`, {})
-        //   // Reject if no MedicationRequests are found
-        //   .then(function(data) {
-        //     console.log("successfully retireved patient medication  record: " + data )
-        //     console.log(data)
-        //     console.log('resolving patient medication.');
-        //     ret.resolve(data);
-        //   })
-        //   // patient/DiagnosticReport.read 
-        // client.request(`DiagnosticReport?patient=${client.patient.id}`, {})
-        //   .then(function(data) {
-        //     console.log("successfully retireved patient DiagnosticReport  record: " )
-        //     console.log(data)
-        //     console.log('resolving patient DiagnosticReport.');
-        //     //ret.resolve(data);
-        //   })
-        //   // patient/Encounter.read
-        // client.request(`Encounter?patient=${client.patient.id}`, {})
-        //   .then(function(data) {
-        //     console.log("successfully retireved patient Encounter  record: " )
-        //     console.log(data)
-        //     console.log('resolving patient Encounter.');
-        //     //ret.resolve(data);
-        //   })
-
-        } else {
-          console.log("throwing error due to missing patient key in clinet")
-          onError();
-        }
-
-
-
-
-        //   var pt = smart.request(`Patient/${smart.patient.id}`, {});
-
-        //   console.log("made request for patient")
-
-        //   // var patient = smart.patient;
-        //   // var pt = patient.read(); 
-        //   $.when(pt).fail(onError);
-        //   $.when(pt).done(function (patient) {
-
-        //     console.log("successfully retireved patient record: ")
-        //     console.log(patient)
-        //     // var gender = patient.gender;
-        //     // var fname = '';
-        //     // var lname = '';
-
-        //     // if (typeof patient.name[0] !== 'undefined') {
-        //     //   fname = patient.name[0].given.join(' ');
-        //     //   lname = patient.name[0].family.join(' ');
-        //     // }
-        //     var p = defaultPatient();
-        //     // patient data
-        //     p.birthdate = patient.birthDate;
-        //     p.gender = gender;
-        //     p.fname = fname;
-        //     p.lname = lname;
-        //     console.log('resolving patient.');
-        //     ret.resolve(p);
-        //   });
-        // } else {
-        //   onError();
-        // }
+        });        
+      } else {
+        console.log("throwing error due to missing patient key in clinet")
+        onError();
+      }     
     }
-    
     queryPatient(client, onError);
     return ret.promise();
-
   }
 
   window.extractData = function () {
     var ret = $.Deferred();
-
     function onError() {
       console.log('Loading error on data', arguments);
       ret.reject();
@@ -187,7 +106,6 @@
     }
     FHIR.oauth2.ready(onReady, onError);
     return ret.promise();
-
   };
 
 
@@ -432,15 +350,5 @@
     $('#medicationOrderRec').text(JSON.stringify(res.medicationOrder,null,'\t'));
     $('#diagnosticReportRec').text(JSON.stringify(res.diagnosticReport,null,'\t'));
     $('#encounterRec').text(JSON.stringify(res.encounter,null,'\t'));
-
   };
-
-  // window.drawPractitionerInfo = function(p) {
-  //   // Practitioner data
-  //   $('#userid').html(p.userid);
-  //   $('#username').html(p.username);
-  //   $('#pid').html(p.pid);
-  //   $('#encounter').html(p.encounter);
-  // };
-
 })(window);
