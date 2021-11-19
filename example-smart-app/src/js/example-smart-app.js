@@ -164,20 +164,28 @@
     }
 
     function onReady(client) {     
-      var user = getUserInfo (client)
-      var patient = getPatientInfo(client)
+  
+      //get practioner record
+      var p0 = client.request(`Practitioner/${client.user.id}`, {})
+
+      //get patient record
+      var p1 = client.request(`Patient/${client.patient.id}`, {})
+      var p2= client.request(`MedicationOrder?patient=${client.patient.id}`, {})
+      var p3 = client.request(`DiagnosticReport?patient=${client.patient.id}`, {})
+      var p4 = client.request(`Encounter?patient=${client.patient.id}`, {})
 
       console.log('waiting for promises');
-      $.when(user, patient).fail(onError);
-      $.when(user, patient).done(function (userInfo, patientInfo) {
+      Promise.all([p0,p1, p2, p3, p4]).then((values) => {
         console.log('Promises resolved');
         var res = {}
-        res.UserInfo = userInfo
-        res.PatientInfo = patientInfo
-        ret.resolve(res);
+        res.Practitioner = values[0]
+        res.Patient = values[1]
+        res.MedicationOrder = values[2]
+        res.DiagnosticReport = values[3]
+        res.Encounter = values[4]
+        console.log(res);
+        ret.resolve(res)
       });
-    }
-
     FHIR.oauth2.ready(onReady, onError);
     return ret.promise();
 
@@ -410,13 +418,14 @@
 
   window.drawVisualization = function (res) {
     console.log("drawing values")
+    console.log(res)
     //Practitioner data
 
     //$('#userinfo').html(userInfo);
     //$('#patient').html(patientInfo);
-    $('#userid').html(JSON.stringify(res.UserInfo));
-    $('#username').html(JSON.stringify(res.PatientInfo));
-    // $('#pid').html(p.pid);
+    $('#userid').html(JSON.stringify(res.Practitioner.id));
+    $('#username').html(JSON.stringify(res.Practioner.nme.text));
+    $('#pid').html(res.Patient.id);
     // $('#encounter').html(p.encounter);
     // //Patient data
     // $('#holder').show();
