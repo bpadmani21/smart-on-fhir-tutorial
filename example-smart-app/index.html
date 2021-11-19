@@ -23,24 +23,23 @@
       <h2>Example-SMART-App</h2>
       <div>
         <strong>Practitioner Record</strong>
-        <textarea id='practitionRec'></textarea>
-
+        <textarea id='practitionRec' oninput="auto_grow(this)"></textarea>
       </div>
       <div>
         <strong>Patient Record</strong>
-        <textarea id='patientRec'></textarea>
+        <textarea id='patientRec' oninput="auto_grow(this)"></textarea>
       </div>
       <div>
         <strong>Medications</strong>
-        <textarea id='medicationOrder'></textarea>
+        <textarea id='medicationOrder' oninput="auto_grow(this)"></textarea>
       </div>
       <div>
         <strong>Diagnostics</strong>
-        <textarea id='diagnosticReport'></textarea>
+        <textarea id='diagnosticReport' oninput="auto_grow(this)"></textarea>
       </div>
       <div>
-        <strong>Encountes</strong>
-        <textarea id='encounter'></textarea>
+        <strong>Encounters</strong>
+        <textarea id='encounter' oninput="auto_grow(this)"></textarea>
       </div>
       <h2>Practioner Resource</h2>
       <table>
@@ -134,6 +133,11 @@
     <script src='./lib/js/fhir-client-cerner-additions-1.0.0.js'></script>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
     <script>
+      function auto_grow(element) {
+          element.style.height = "5px";
+          element.style.height = (element.scrollHeight)+"px";
+      }
+
       extractData().then(
         //Display Patient Demographics and Observations if extractData was success
         function(res) {
