@@ -167,7 +167,6 @@
   
       //get practioner record
       var p0 = client.request(`Practitioner/${client.user.id}`, {})
-
       //get patient record
       var p1 = client.request(`Patient/${client.patient.id}`, {})
       var p2= client.request(`MedicationOrder?patient=${client.patient.id}`, {})
@@ -186,6 +185,7 @@
         console.log(res);
         ret.resolve(res)
       });
+    }
     FHIR.oauth2.ready(onReady, onError);
     return ret.promise();
 
@@ -423,8 +423,8 @@
 
     //$('#userinfo').html(userInfo);
     //$('#patient').html(patientInfo);
-    $('#userid').html(JSON.stringify(res.Practitioner.id));
-    $('#username').html(JSON.stringify(res.Practioner.nme.text));
+    $('#userid').html(res.Practitioner.id);
+    $('#username').html(res.Practioner.nme.text);
     $('#pid').html(res.Patient.id);
     // $('#encounter').html(p.encounter);
     // //Patient data
