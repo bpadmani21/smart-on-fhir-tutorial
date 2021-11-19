@@ -420,8 +420,11 @@
     console.log(res)
     //Practitioner data
 
-    $('#practitionRec').text(JSON.stringify(res.practitioner));
-    $('#patientRec').text(JSON.stringify(res.patient));
+    $('#practitionRec').text(JSON.stringify(res.practitioner,null,'\t'));
+    $('#patientRec').text(JSON.stringify(res.patient,null,'\t'));
+    $('#medicationOrder').text(JSON.stringify(res.medicationOrder,null,'\t'));
+    $('#diagnosticReport').text(JSON.stringify(res.diagnosticReport,null,'\t'));
+    $('#encounter').text(JSON.stringify(res.encounter,null,'\t'));
 
     $('#userid').html(res.practitioner.id);
     $('#username').html(res.practitioner.name.text);
