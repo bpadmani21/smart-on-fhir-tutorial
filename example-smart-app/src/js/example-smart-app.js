@@ -177,11 +177,11 @@
       Promise.all([p0,p1, p2, p3, p4]).then((values) => {
         console.log('Promises resolved');
         var res = {}
-        res.Practitioner = values[0]
-        res.Patient = values[1]
-        res.MedicationOrder = values[2]
-        res.DiagnosticReport = values[3]
-        res.Encounter = values[4]
+        res.practitioner = values[0]
+        res.patient = values[1]
+        res.medicationOrder = values[2]
+        res.diagnosticReport = values[3]
+        res.encounter = values[4]
         console.log(res);
         ret.resolve(res)
       });
@@ -423,9 +423,9 @@
 
     //$('#userinfo').html(userInfo);
     //$('#patient').html(patientInfo);
-    $('#userid').html(res.Practitioner.id);
-    $('#username').html(res.Practioner.nme.text);
-    $('#pid').html(res.Patient.id);
+    $('#userid').html(res.practitioner.id);
+    $('#username').html(res.practitioner.name.text);
+    $('#pid').html(res.patient.id);
     // $('#encounter').html(p.encounter);
     // //Patient data
     // $('#holder').show();
