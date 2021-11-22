@@ -350,5 +350,9 @@
     $('#medicationOrderRec').text(JSON.stringify(res.medicationOrder,null,'\t'));
     $('#diagnosticReportRec').text(JSON.stringify(res.diagnosticReport,null,'\t'));
     $('#encounterRec').text(JSON.stringify(res.encounter,null,'\t'));
+
+    $('#holder').show();
+    $('#loading').hide();
   };
+
 })(window);
