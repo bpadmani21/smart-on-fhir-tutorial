@@ -340,9 +340,9 @@
 
     $('#proactitioner').html(res.practitioner.text.div);
     $('#patient').html(res.patient.text.div);
-    $('#medicationOrder').html(res.medicationOrder.text.div);
-    $('#diagnosticReport').html(res.diagnosticReport.text.div);
-    $('#encounter').html(res.encounter.text.div);
+    $('#medicationOrder').html("Total medications: " + res.medicationOrder.link.length);
+    $('#diagnosticReport').html("Total medications: " + res.diagnosticReport.link.length);
+    $('#encounter').html("Total Encounters: " + res.encounter.link.length);
 
 
     $('#practitionRec').text(JSON.stringify(res.practitioner,null,'\t'));
