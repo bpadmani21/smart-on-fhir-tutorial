@@ -345,7 +345,7 @@
     $('#medicationOrder').html("<b>Medications<br/>Total:</b>" + res.medicationOrders.link.length);
     $('#diagnosticReport').html("<b>Diagnostics<br/>Total:</b>"+ res.diagnosticReports.link.length);
     $('#encounter').html("<b>Encounters<br/>Total:</b>"+ res.encounters.link.length);
-    $('#observation').html("<b>Encounters<br/>Total:</b>"+ res.observations.link.length);
+    $('#observation').html("<b>Observations<br/>Total:</b>"+ res.observations.link.length);
 
 
     $('#practitionRec').text(JSON.stringify(res.practitioner,null,'\t'));
