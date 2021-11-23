@@ -9,7 +9,7 @@
 
     function onReady(client) { 
       console.log("SmartClinet is ready.")
-      console.log(Clinet)    
+      console.log(client)    
       //get practioner record
       var p0 = client.request(`Practitioner/${client.user.id}`, {})
       //get patient record
